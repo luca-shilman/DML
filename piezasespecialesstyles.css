@@ -12,6 +12,14 @@
             background-color: #f3f4f6;
         }
 
+        body.menu-open {
+            overflow: hidden;
+        }
+
+        body.modal-open {
+            overflow: hidden;
+        }
+
         .header {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
@@ -68,6 +76,7 @@
             margin-right: 0;
         }
 
+
         .nav-menu a {
             color: #1f2937;
             text-decoration: none;
@@ -110,13 +119,15 @@
             height: 100vh;
             background: rgba(255, 255, 255, 0.98);
             backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             display: flex;
             align-items: center;
             justify-content: center;
             z-index: 1000;
             opacity: 0;
             visibility: hidden;
-            transition: all 0.3s ease;
+            transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            will-change: opacity, visibility;
         }
 
         .mobile-menu.active {
@@ -168,7 +179,13 @@
             .mobile-menu {
                 display: flex;
             }
+
+            .mobile-menu-btn {
+                margin-right: 1.2rem;
+            }
         }
+
+
 
         .back-btn {
             background: rgba(107, 114, 128, 0.1);
@@ -217,6 +234,11 @@
             grid-template-columns: 2fr 1fr;
             gap: 3rem;
             margin-bottom: 3rem;
+        }
+
+        .service-content h3 {
+            margin-top: 2rem; 
+            margin-bottom: 1rem;
         }
 
         .service-text {

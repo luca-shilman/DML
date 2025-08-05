@@ -1,5 +1,5 @@
 
-    // Mobile menu functionality
+    // Mobile menu functionality for laminados page
     
     document.addEventListener('DOMContentLoaded', function() {
         const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
@@ -9,24 +9,24 @@
         const body = document.body;
 
         if (mobileMenuBtn && mobileMenu && mobileClose) {
-            mobileMenuBtn.addEventListener('click', () => {
-                mobileMenu.classList.add('active');
-                body.classList.add('menu-open');
-                mobileMenuBtn.setAttribute('aria-expanded', 'true');
-            });
+                    mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.add('active');
+            body.classList.add('menu-open');
+            mobileMenuBtn.setAttribute('aria-expanded', 'true');
+        });
 
-            mobileClose.addEventListener('click', () => {
+        mobileClose.addEventListener('click', () => {
+            mobileMenu.classList.remove('active');
+            body.classList.remove('menu-open');
+            mobileMenuBtn.setAttribute('aria-expanded', 'false');
+        });
+
+        mobileMenuLinks.forEach(link => {
+            link.addEventListener('click', () => {
                 mobileMenu.classList.remove('active');
                 body.classList.remove('menu-open');
                 mobileMenuBtn.setAttribute('aria-expanded', 'false');
             });
-
-            mobileMenuLinks.forEach(link => {
-                link.addEventListener('click', () => {
-                    mobileMenu.classList.remove('active');
-                    body.classList.remove('menu-open');
-                    mobileMenuBtn.setAttribute('aria-expanded', 'false');
-                });
-            });
+        });
         }
     });

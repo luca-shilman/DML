@@ -1,4 +1,4 @@
-    if ('scrollRestoration' in history) {
+if ('scrollRestoration' in history) {
     history.scrollRestoration = "auto";
     }
 

@@ -1,21 +1,41 @@
+/* Performance optimizations */
 * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        img, button, .service-card, .hero h1, .hero h2 {
-            user-select: none;
-        }
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-        body {
-            font-family: 'Montserrat', sans-serif;
-            line-height: 1.6;
-            color: #1f2937;
-            background-color: #e5e7eb;
-            overflow-x: hidden;
-            font-weight: 600;
-            padding: 0;
-        }
+/* Optimize rendering performance */
+img, button, .service-card, .hero h1, .hero h2 {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+/* Hardware acceleration for smooth animations */
+.hero, .service-card, .about-image, .mobile-menu, .chat-toggle {
+    will-change: transform;
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    -moz-transform: translateZ(0);
+    -ms-transform: translateZ(0);
+}
+
+/* Optimize transitions for better performance */
+* {
+    transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, opacity 0.3s ease, transform 0.3s ease;
+}
+    
+body {
+    font-family: 'Montserrat', sans-serif;
+    line-height: 1.6;
+    color: #1f2937;
+    background-color: #e5e7eb;
+    overflow-x: hidden;
+    font-weight: 600;
+    padding: 0;
+}
 
         body.menu-open {
             overflow: hidden;
@@ -35,7 +55,8 @@
             top: 0;
             z-index: 1000;
             box-shadow: 0 2px 20px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            will-change: background-color, box-shadow;
         }
 
         .nav-container {
@@ -84,6 +105,7 @@
             margin-right: 0;
         }
 
+
         .nav-menu a {
             color: #1f2937;
             text-decoration: none;
@@ -126,13 +148,15 @@
             height: 100vh;
             background: rgba(255, 255, 255, 0.98);
             backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             display: flex;
             align-items: center;
             justify-content: center;
             z-index: 1000;
             opacity: 0;
             visibility: hidden;
-            transition: all 0.3s ease;
+            transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            will-change: opacity, visibility;
         }
 
         .mobile-menu.active {
@@ -303,6 +327,10 @@
             transform: translateY(30px);
         }
 
+        .contact .section-title {
+            color: white;
+        }
+
         .section-title.animate {
             animation: fadeInUp 0.8s ease forwards;
         }
@@ -445,18 +473,19 @@
             padding: 2rem;
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             border: 1px solid rgba(209, 213, 219, 0.3);
             position: relative;
             overflow: hidden;
             opacity: 0;
-            transform: translateY(30px);
+            transform: translate3d(0, 30px, 0);
             cursor: pointer;
             text-align: center;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            will-change: transform, opacity;
         }
         .service-card h3, .service-card p {
             color: #f3f4f6;
@@ -511,7 +540,7 @@
             opacity: 1;
             box-shadow: 0 8px 32px rgba(80,80,80,0.25), 0 1.5px 8px rgba(80,80,80,0.12);
             z-index: 2;
-            transform: scale(1.035);
+            transform: translate3d(0, 0, 0) scale(1.035);
         }
 
         .service-content {
@@ -720,41 +749,53 @@
             padding: 0 2rem;
         }
 
-        /* Animations */
+        .footer-content--firma {
+            margin-top: 0.5rem; 
+            opacity: 0.6; 
+            font-size: 0.65rem;
+        }
+
+        .firma-luca {
+            margin-left: 0.4em; 
+            display: inline-block;
+        }
+
+        /* Optimized animations with hardware acceleration */
         @keyframes fadeInUp {
             from {
                 opacity: 0;
-                transform: translateY(30px);
+                transform: translate3d(0, 30px, 0);
             }
             to {
                 opacity: 1;
-                transform: translateY(0);
+                transform: translate3d(0, 0, 0);
             }
         }
 
         @keyframes fadeInLeft {
             from {
                 opacity: 0;
-                transform: translateX(-30px);
+                transform: translate3d(-30px, 0, 0);
             }
             to {
                 opacity: 1;
-                transform: translateX(0);
+                transform: translate3d(0, 0, 0);
             }
         }
 
         @keyframes fadeInRight {
             from {
                 opacity: 0;
-                transform: translateX(30px);
+                transform: translate3d(30px, 0, 0);
             }
             to {
                 opacity: 1;
-                transform: translateX(0);
+                transform: translate3d(0, 0, 0);
             }
         }
 
         /* Responsive Design */
+
         @media (max-width: 768px) {
             .nav-menu {
                 display: none;
@@ -787,6 +828,10 @@
 
             .mobile-menu {
                 display: flex;
+            }
+
+            .mobile-menu-btn {
+                margin-right: 1.2rem;
             }
         }
 
@@ -822,6 +867,19 @@
         .chat-header h3 {
             margin: 0;
             font-size: 1.1rem;
+            display: flex; 
+            align-items: center; 
+            gap: 0.5rem;
+        }
+
+        .chat-header--span {
+            display: inline-block; 
+            width: 12px; 
+            height: 12px; 
+            background: #22c55e; 
+            border-radius: 50%; 
+            box-shadow: 0 0 4px #22c55e; 
+            margin-right: 0.5rem;
         }
 
         .chat-close {
@@ -911,21 +969,36 @@
             transform: scale(1.1);
         }
 
-        /* Smooth scrolling */
+        /* Optimized smooth scrolling */
         html, body {
             scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* Reduce repaint during scroll */
+        .hero, .about, .services, .contact {
+            contain: layout style paint;
+        }
+
+        /* Optimize images */
+        img {
+            max-width: 100%;
+            height: auto;
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: crisp-edges;
         }
 
         /* Scroll animations */
         .animate-on-scroll {
             opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s ease;
+            transform: translate3d(0, 30px, 0);
+            transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            will-change: opacity, transform;
         }
 
         .animate-on-scroll.animate {
             opacity: 1;
-            transform: translateY(0);
+            transform: translate3d(0, 0, 0);
         }
 
         /* Accessibility improvements */
@@ -972,6 +1045,7 @@
         .logo:focus:not(:focus-visible) {
             outline: none;
         }
+
         @media (max-width: 600px) {
             .modal-content-responsive {
                 padding: 1.2rem 0.5rem !important;
@@ -1004,18 +1078,24 @@
                 margin-right: 1rem;
             }
         }
+
         .service-card {
             text-decoration: none !important;
         }
+
         .service-card:visited, .service-card:active, .service-card:focus, .service-card:hover {
             text-decoration: none !important;
         }
+
         .service-card:focus {
             outline: none;
         }
+        
         .mobile-menu-btn:focus, .mobile-close:focus, nav button:focus {
             outline: none;
         }
+
+
         body.no-grid-anim .service-card.animate-on-scroll {
             animation: none !important;
             opacity: 1 !important;

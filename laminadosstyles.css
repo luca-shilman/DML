@@ -1,8 +1,31 @@
 
+        /* Performance optimizations */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+        }
+
+        /* Optimize rendering performance */
+        img, button, .service-card, .hero h1, .hero h2 {
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+        }
+
+        /* Hardware acceleration for smooth animations */
+        .hero, .service-card, .about-image, .mobile-menu, .chat-toggle {
+            will-change: transform;
+            transform: translateZ(0);
+            -webkit-transform: translateZ(0);
+            -moz-transform: translateZ(0);
+            -ms-transform: translateZ(0);
+        }
+
+        /* Optimize transitions for better performance */
+        * {
+            transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, opacity 0.3s ease, transform 0.3s ease;
         }
 
         body {
@@ -12,16 +35,26 @@
             background-color: #f3f4f6;
         }
 
+        body.menu-open {
+            overflow: hidden;
+        }
+
+        body.modal-open {
+            overflow: hidden;
+        }
+
         .header {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             color: #1f2937;
             padding: 1rem 0;
             position: sticky;
             top: 0;
             z-index: 1000;
             box-shadow: 0 2px 20px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            will-change: background-color, box-shadow;
         }
 
         .nav-container {
@@ -110,13 +143,15 @@
             height: 100vh;
             background: rgba(255, 255, 255, 0.98);
             backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             display: flex;
             align-items: center;
             justify-content: center;
             z-index: 1000;
             opacity: 0;
             visibility: hidden;
-            transition: all 0.3s ease;
+            transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            will-change: opacity, visibility;
         }
 
         .mobile-menu.active {
@@ -168,7 +203,13 @@
             .mobile-menu {
                 display: flex;
             }
+
+            .mobile-menu-btn {
+                margin-right: 1.2rem;
+            }
         }
+
+
 
         .back-btn {
             background: rgba(107, 114, 128, 0.1);
@@ -230,6 +271,11 @@
             color: #1f2937;
             margin-bottom: 1.5rem;
             font-size: 2rem;
+        }
+
+        .service-text h3 {
+            margin-top: 2rem; 
+            margin-bottom: 1rem;
         }
 
         .service-text p {
